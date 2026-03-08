@@ -1,0 +1,20 @@
+[
+ {
+  "name": "Ravi",
+  "blood_group": "O+",
+  "location": "Kadapa",
+  "phone": "9876543210"
+ },
+ {
+  "name": "Suresh",
+  "blood_group": "A+",
+  "location": "Tirupati",
+  "phone": "9876543211"
+ },
+ {
+  "name": "Anitha",
+  "blood_group": "B+",
+  "location": "Kadapa",
+  "phone": "9876543212"
+ }
+]

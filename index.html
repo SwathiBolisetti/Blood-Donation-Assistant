@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>Blood Donation Assistant</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="stylesheet" href="/static/style.css">
+
+</head>
+
+<body class="bg-gray-100 flex flex-col h-screen">
+
+
+<!-- HEADER -->
+
+<header class="bg-red-600 text-white p-4 shadow-lg">
+
+<div class="flex justify-between items-center max-w-4xl mx-auto">
+
+<h1 class="text-xl font-bold">🩸 Life Saving Blood Assistant</h1>
+
+<span class="text-sm flex items-center gap-2">
+<span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+AI Online
+</span>
+
+</div>
+
+</header>
+
+
+
+<!-- CHAT AREA -->
+
+<div id="chat" class="flex-1 overflow-y-auto p-4 space-y-4 max-w-4xl w-full mx-auto">
+
+<div class="bg-white p-3 rounded-xl shadow w-fit">
+
+Hello 👋  
+Ask me something like:
+
+<br><br>
+
+• "I need O+ blood in Kadapa"  
+• "A+ donors in Tirupati"
+
+</div>
+
+</div>
+
+
+
+<!-- INPUT AREA -->
+
+<div class="p-4 bg-white shadow-lg">
+
+<div class="flex gap-2 max-w-4xl mx-auto">
+
+<input
+id="message"
+class="flex-1 bg-gray-100 rounded-full px-5 py-3 focus:outline-none focus:ring-2 focus:ring-red-400 shadow-inner"
+placeholder="Type: I need O+ blood in Kadapa..."
+>
+
+<button
+onclick="sendMessage()"
+class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full"
+>
+
+Send
+
+</button>
+
+</div>
+
+</div>
+
+
+
+<script>
+
+async function sendMessage(){
+
+let input = document.getElementById("message")
+
+let msg = input.value
+
+if(msg.trim() === "") return
+
+
+// show user message
+
+let chat = document.getElementById("chat")
+
+chat.innerHTML += `
+
+<div class="flex justify-end">
+
+<div class="bg-red-500 text-white p-3 rounded-xl max-w-xs">
+
+${msg}
+
+</div>
+
+</div>
+
+`
+
+
+input.value = ""
+
+
+// send to backend
+
+let res = await fetch("/chat", {
+
+method: "POST",
+
+headers: {
+
+"Content-Type":"application/json"
+
+},
+
+body: JSON.stringify({message:msg})
+
+})
+
+
+let data = await res.json()
+
+
+let responseHTML = ""
+
+
+if(data.length === 0){
+
+responseHTML = `
+
+<div class="bg-white p-3 rounded-xl shadow">
+
+❌ No donors found
+
+</div>
+
+`
+
+}else{
+
+data.forEach(d => {
+
+responseHTML += `
+
+<div class="bg-white rounded-xl p-4 shadow-lg border hover:scale-105 transition">
+
+<div class="flex justify-between items-center">
+
+<div>
+
+<div class="font-bold text-lg">${d.name}</div>
+
+<div class="text-red-500 font-semibold">
+🩸 ${d.blood_group} Donor
+</div>
+
+<div class="text-gray-500 text-sm">
+📍 ${d.location}
+</div>
+
+</div>
+
+<div class="bg-red-500 text-white px-3 py-1 rounded-full text-sm">
+
+📞 ${d.phone}
+
+</div>
+
+</div>
+
+</div>
+
+`
+
+})
+
+}
+
+
+chat.innerHTML += `
+
+<div class="flex justify-start">
+
+<div class="space-y-2 max-w-xs">
+
+${responseHTML}
+
+</div>
+
+</div>
+
+`
+
+chat.scrollTop = chat.scrollHeight
+
+}
+
+
+
+// ENTER KEY SUPPORT
+
+document.getElementById("message").addEventListener("keypress",function(e){
+
+if(e.key === "Enter"){
+
+sendMessage()
+
+}
+
+})
+
+</script>
+
+</body>
+</html>
