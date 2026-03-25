@@ -1,18 +1,14 @@
-# 🩸 AI Blood Donation Assistant
+# 🩸 Life Saving Blood Donation Assistant
 
-AI Blood Donation Assistant is a Flask-based chat assistant that helps users quickly find blood donors by blood group and location during emergency situations.
+🔴 **Live Demo:**  
+👉 https://swathibolisetti.pythonanywhere.com
 
-## Features
-- Chat-based donor search
-- Match donors by blood group and area
-- Rule-based logic with JSON data storage
+💻 **Tech Stack:**  
+- Python  
+- Flask  
+- HTML, CSS, JavaScript  
+- JSON (used as database)
 
-## Technologies
-- Python, Flask
-- HTML, CSS, JavaScript
-- JSON (file-based database)
-
-## Run Locally
-```bash
-pip install flask
-python app.py
+📌 **Description:**  
+A web-based assistant that helps users find nearby blood donors by entering blood group and area.  
+It instantly returns matching donor details, helping save lives during emergencies.
